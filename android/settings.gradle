@@ -1,0 +1,3 @@
+rootProject.name = 'reactnativegooglecastv3'
+
+include ':app'

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">googlecast-v3</string>
+
+    <string name="castAppId">A1A34040</string>
+    <string name="castNamespace">urn:x-cast:mtk.holla</string>
+
+</resources>
