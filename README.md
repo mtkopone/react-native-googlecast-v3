@@ -20,11 +20,12 @@ Add required dependencies to `./android/app/build.gradle`:
     dependencies {
       compile project(':react-native-googlecast-v3')
       compile "com.android.support:appcompat-v7:23.0.1"
+      compile 'com.android.support:mediarouter-v7:23.0.1'
       compile "com.google.android.gms:play-services-cast-framework:10.0.1"
       ... // And so on
     }
 
-Make sure the version of the appcompat and mediarouter dependencies matches your compileSdkVersion.
+Make sure the version of the appcompat and mediarouter dependencies matches your `compileSdkVersion`.
 
 Add the following inside the `<application>`-element in `./android/app/src/main/AndroidManifest.xml`:
 
