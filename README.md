@@ -40,11 +40,11 @@ Make the following changes to `./android/app/src/main/java/your.package/MainActi
 
 * Override onStart, and add CastManager initialization:
 
-    @Override
-    protected void onStart() {
-      super.onStart();
-      CastManager.init(this);
-    }
+      @Override
+      protected void onStart() {
+        super.onStart();
+        CastManager.init(this);
+      }
 
 # Usage
 
