@@ -21,7 +21,7 @@ Add required dependencies to `./android/app/build.gradle`:
       compile project(':react-native-googlecast-v3')
       compile "com.android.support:appcompat-v7:23.0.1"
       compile 'com.android.support:mediarouter-v7:23.0.1'
-      compile "com.google.android.gms:play-services-cast-framework:10.0.1"
+      compile "com.google.android.gms:play-services-cast-framework:11.8.0"
       ... // And so on
     }
 
@@ -48,14 +48,14 @@ Make the following changes to `./android/app/src/main/java/your.package/MainActi
       @Override
       protected void onStart() {
         super.onStart();
-        CastManager.init(this);
+        com.reactnativegooglecastv3.CastManager.init(this);
       }
 
 # Usage
 
 #### Import
 
-    import CastButton, { GoogleCastV3 } from 'react-native-googlecastv3'
+    import CastButton, { GoogleCastV3 } from 'react-native-googlecast-v3'
 
     GoogleCastV3.appId // is your castAppId
     GoogleCastV3.namespace // is your castNamespace
