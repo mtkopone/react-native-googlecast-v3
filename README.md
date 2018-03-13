@@ -11,6 +11,8 @@ Google Cast SDK v3 support for react-Native
     npm install --save <TODO:i-haven't-published-in-npm-yet>
     npm link
 
+Or, you know, the same in yarn if that's what we are all using this week...
+
 ## Configuration for Android
 
 Add the following inside the `<application>`-element in `./android/app/src/main/AndroidManifest.xml`:
