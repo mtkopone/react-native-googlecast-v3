@@ -8,7 +8,7 @@ Google Cast SDK v3 support for React-Native
 
 # Installation
 
-    npm install --save react-native-googlecast-v3
+    npm install --save https://github.com/mtkopone/react-native-googlecast-v3
     react-native link
 
 Or, you know, the same in yarn if that's what we are all using this week...
