@@ -1,6 +1,6 @@
 # react-native-googlecast-v3
 
-Google Cast SDK v3 support for react-Native
+Google Cast SDK v3 support for React-Native
 
 ## CAVEATS!
 * Only Android at the moment, iOS to come.
