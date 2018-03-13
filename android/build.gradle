@@ -1,25 +1,27 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'com.android.library'
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
+android {
+    compileSdkVersion 23
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    lintOptions {
+       warning 'InvalidPackage'
     }
 }
 
-allprojects {
-    repositories {
-        mavenLocal()
-        jcenter()
-        maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url "$rootDir/../node_modules/react-native/android"
-        }
-    }
+dependencies {
+    def googlePlayServicesVersion = project.hasProperty('googlePlayServicesVersion') ? project.googlePlayServicesVersion : "+"
+    compile "com.facebook.react:react-native:+"
+    compile "com.android.support:appcompat-v7:23.0.1"
+    compile 'com.android.support:mediarouter-v7:23.0.1'
+    compile 'com.google.android.gms:play-services-cast-framework:$googlePlayServicesVersion'
 }

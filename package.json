@@ -1,6 +1,7 @@
 {
   "name": "react-native-googlecast-v3",
   "version": "0.1.0",
+  "license": "MIT",
   "private": false,
   "devDependencies": {},
   "dependencies": {}
