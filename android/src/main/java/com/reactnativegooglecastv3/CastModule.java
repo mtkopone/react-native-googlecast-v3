@@ -10,6 +10,8 @@ import com.google.android.gms.cast.framework.CastState;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.reactnativegooglecastv3.GoogleCastPackage.NAMESPACE;
+
 public class CastModule extends ReactContextBaseJavaModule {
     final ReactApplicationContext reactContext;
     final Handler handler;
@@ -39,7 +41,7 @@ public class CastModule extends ReactContextBaseJavaModule {
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put("namespace", reactContext.getString(R.string.castNamespace));
+        constants.put("namespace", GoogleCastPackage.metadata(NAMESPACE, "", reactContext));
         constants.put("NO_DEVICES_AVAILABLE", CastState.NO_DEVICES_AVAILABLE);
         constants.put("NOT_CONNECTED", CastState.NOT_CONNECTED);
         constants.put("CONNECTING", CastState.CONNECTING);

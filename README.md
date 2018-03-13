@@ -3,17 +3,27 @@
 Google Cast SDK v3 support for react-Native
 
 ## CAVEATS!
-* Only Android at the moment, iOS to come...
-* Only supports talking to your custom receiver thru a custom channel at the moment, so the default use-case of playing some media is currently **NOT** supported. Sorry, but this is what I needed today...
+* Only Android at the moment, iOS to come.
+* Only supports talking to your custom receiver thru a custom channel at the moment, so the default use-case of playing some media is currently **NOT** supported. Sorry, but this is what I needed today.
 
 # Installation
 
-    npm install --save <TODO:i-haven't-published-in-npm-yet>
+    npm install --save react-native-googlecast-v3
     react-native link
 
 Or, you know, the same in yarn if that's what we are all using this week...
 
 ## Configuration for Android
+
+Add required dependencies to `./android/app/build.gradle`:
+
+    dependencies {
+      compile project(':react-native-googlecast-v3') // This should already be present, if 'react-native link' worked
+      compile "com.android.support:appcompat-v7:23.0.1" // Make sure the version matches your compileSdkVersion
+      compile "com.android.support:mediarouter-v7:23.0.1" // Make sure the version matches your compileSdkVersion
+      compile "com.google.android.gms:play-services-cast-framework:10.0.1"
+      ... // And so on
+    }
 
 Add the following inside the `<application>`-element in `./android/app/src/main/AndroidManifest.xml`:
 
@@ -21,17 +31,14 @@ Add the following inside the `<application>`-element in `./android/app/src/main/
       android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
       android:value="com.reactnativegooglecastv3.CastOptionsProvider"
     />
-
-Add your Google Cast app id and the namespace whose messages you want to listen to into `.android/app/src/main/res/values/strings.xml`:
-
-    <string name="castAppId">YOUR_APP_ID</string>
-    <string name="castNamespace">urn:x-cast:your.own.namespace</string>
+    <meta-data android:name="com.reactnativegooglecastv3.castAppId" android:value="YOUR_APP_ID" />
+    <meta-data android:name="com.reactnativegooglecastv3.castNamespace" android:value="urn:x-cast:your.own.namespace" />
 
 Make the following changes to `./android/app/src/main/java/your.package/MainActivity.java`:
 
 * Make MainActivity extend `com.facebook.react.ReactFragmentActivity`
 
-* Override onStart, and add cast initialization:
+* Override onStart, and add CastManager initialization:
       @Override
       protected void onStart() {
         super.onStart();
@@ -54,7 +61,7 @@ The CastButton will appear and disappear depending on cast device availability, 
 
 #### Send messages to a connected Cast device
 
-Using the namespace declared in strings.xml:
+Using the namespace declared in you AndroidManifest.xml:
 
     GoogleCastV3.send('WHADDUP')
 

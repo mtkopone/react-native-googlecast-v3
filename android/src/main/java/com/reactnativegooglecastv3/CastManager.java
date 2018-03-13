@@ -16,6 +16,8 @@ import com.google.android.gms.cast.framework.SessionManager;
 
 import java.io.IOException;
 
+import static com.reactnativegooglecastv3.GoogleCastPackage.NAMESPACE;
+
 public class CastManager {
     static final String TAG = "GoogleCastV3";
     static CastManager instance;
@@ -61,7 +63,7 @@ public class CastManager {
             try {
                 if (reactContext != null)
                     session.setMessageReceivedCallbacks(
-                        reactContext.getString(R.string.castNamespace),
+                        GoogleCastPackage.metadata(NAMESPACE, "", reactContext),
                         new CastMessageReceivedCallback());
             } catch (IOException e) {
                 Log.e(TAG, "Cast channel creation failed: ", e);
