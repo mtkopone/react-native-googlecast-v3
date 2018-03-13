@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GoogleCastPackage implements ReactPackage {
+    static final String TAG = "GoogleCastV3";
     static final String APP_ID = "com.reactnativegooglecastv3.castAppId";
     static final String NAMESPACE = "com.reactnativegooglecastv3.castNamespace";
 

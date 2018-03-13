@@ -17,14 +17,16 @@ import com.google.android.gms.cast.framework.SessionManager;
 import java.io.IOException;
 
 import static com.reactnativegooglecastv3.GoogleCastPackage.NAMESPACE;
+import static com.reactnativegooglecastv3.GoogleCastPackage.TAG;
+import static com.reactnativegooglecastv3.GoogleCastPackage.metadata;
 
 public class CastManager {
-    static final String TAG = "GoogleCastV3";
     static CastManager instance;
 
-    Context parent;
-    CastContext castContext;
-    SessionManager sessionManager;
+    final Context parent;
+    final CastContext castContext;
+    final SessionManager sessionManager;
+    final CastStateListenerImpl castStateListener;
     ReactContext reactContext;
 
 
@@ -32,7 +34,8 @@ public class CastManager {
         this.parent = parent;
         this.castContext = CastContext.getSharedInstance(parent);
         this.sessionManager = castContext.getSessionManager();
-        castContext.addCastStateListener(new CastStateListenerImpl());
+        this.castStateListener = new CastStateListenerImpl();
+        castContext.addCastStateListener(this.castStateListener);
         sessionManager.addSessionManagerListener(new SessionManagerListenerImpl(), CastSession.class);
 
     }
@@ -45,6 +48,10 @@ public class CastManager {
         CastSession session = sessionManager.getCurrentCastSession();
         if (session == null) return;
         session.sendMessage(namespace, message);
+    }
+
+    public void triggerStateChange() {
+        this.castStateListener.onCastStateChanged(castContext.getCastState());
     }
 
     private class CastStateListenerImpl implements CastStateListener {
@@ -63,7 +70,7 @@ public class CastManager {
             try {
                 if (reactContext != null)
                     session.setMessageReceivedCallbacks(
-                        GoogleCastPackage.metadata(NAMESPACE, "", reactContext),
+                        metadata(NAMESPACE, "", reactContext),
                         new CastMessageReceivedCallback());
             } catch (IOException e) {
                 Log.e(TAG, "Cast channel creation failed: ", e);

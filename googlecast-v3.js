@@ -10,7 +10,11 @@ export const GoogleCastV3 = {
       ? NativeGoogleCastV3.send(NativeGoogleCastV3.namespace, a)
       : NativeGoogleCastV3.send(a, b)
   },
-  addCastStateListener: (fn) => DeviceEventEmitter.addListener('googleCastStateChanged', fn),
+  addCastStateListener: (fn) => {
+    const subscription = DeviceEventEmitter.addListener('googleCastStateChanged', fn)
+    NativeGoogleCastV3.triggerStateChange()
+    return subscription
+  },
   addCastMessageListener: (fn) => DeviceEventEmitter.addListener('googleCastMessage', fn),
 }
 

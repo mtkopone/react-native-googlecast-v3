@@ -18,21 +18,25 @@ Or, you know, the same in yarn if that's what we are all using this week...
 Add required dependencies to `./android/app/build.gradle`:
 
     dependencies {
-      compile project(':react-native-googlecast-v3') // This should already be present, if 'react-native link' worked
-      compile "com.android.support:appcompat-v7:23.0.1" // Make sure the version matches your compileSdkVersion
-      compile "com.android.support:mediarouter-v7:23.0.1" // Make sure the version matches your compileSdkVersion
+      compile project(':react-native-googlecast-v3')
+      compile "com.android.support:appcompat-v7:23.0.1"
       compile "com.google.android.gms:play-services-cast-framework:10.0.1"
       ... // And so on
     }
+
+Make sure the version of the appcompat and mediarouter dependencies matches your compileSdkVersion.
 
 Add the following inside the `<application>`-element in `./android/app/src/main/AndroidManifest.xml`:
 
     <meta-data
       android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
-      android:value="com.reactnativegooglecastv3.CastOptionsProvider"
-    />
-    <meta-data android:name="com.reactnativegooglecastv3.castAppId" android:value="YOUR_APP_ID" />
-    <meta-data android:name="com.reactnativegooglecastv3.castNamespace" android:value="urn:x-cast:your.own.namespace" />
+      android:value="com.reactnativegooglecastv3.CastOptionsProvider" />
+    <meta-data
+      android:name="com.reactnativegooglecastv3.castAppId"
+      android:value="YOUR_APP_ID" />
+    <meta-data
+      android:name="com.reactnativegooglecastv3.castNamespace"
+      android:value="urn:x-cast:your.own.namespace" />
 
 Make the following changes to `./android/app/src/main/java/your.package/MainActivity.java`:
 
@@ -51,6 +55,9 @@ Make the following changes to `./android/app/src/main/java/your.package/MainActi
 #### Import
 
     import CastButton, { GoogleCastV3 } from 'react-native-googlecastv3'
+
+    GoogleCastV3.appId // is your castAppId
+    GoogleCastV3.namespace // is your castNamespace
 
 #### Render the Cast button
 
