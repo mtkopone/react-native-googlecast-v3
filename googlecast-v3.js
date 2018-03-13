@@ -1,4 +1,4 @@
-/*
+/**
  * @providesModule react-native-googlecast-v3
  */
 import { DeviceEventEmitter, NativeModules, requireNativeComponent, ViewPropTypes } from 'react-native'
