@@ -1,31 +1,35 @@
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-
-import { DeviceEventEmitter, NativeModules, requireNativeComponent, ViewPropTypes } from 'react-native'
-import PropTypes from 'prop-types'
+import React from 'react'
+import { Button, StyleSheet, Text, View } from 'react-native'
 
 import CastButton, { GoogleCastV3 } from './googlecast-v3'
 
 export default class App extends React.Component {
-
+  constructor() {
+    super(...arguments)
+    this.state = { messages: [] }
+  }
   componentWillMount() {
     console.log('Mounting!');
-    DeviceEventEmitter.addListener('googleCastStateChanged', e => {
-      console.log(e)
+    GoogleCastV3.addCastStateListener(state => {
+      console.log('cast state:', state)
     })
-    DeviceEventEmitter.addListener('googleCastMessage', e => {
-      console.log(e)
+    GoogleCastV3.addCastMessageListener(message => {
+      console.log('msg: ' , message)
+      this.setState({ messages: this.state.messages.concat([message]) })
     })
-
   }
+
   render() {
+    console.log(this.state.messages);
     return (
       <View style={s.container}>
+        {this.state.messages.map((m, i) =>
+          <Text style={s.text} key={i}>{m.message}</Text>
+        )}
         <Button title="Send!" onPress={() => {
           GoogleCastV3.send("WHADDUP")
         }} />
-        <Text style={s.text}>messages</Text>
-        <CastButton style={{ width: 100, height: 30, backgroundColor: 'red' }} />
+        <CastButton style={{ color: 'black', marginTop: 20, width: 100, height: 30, backgroundColor: 'red' }} />
       </View>
     );
   }

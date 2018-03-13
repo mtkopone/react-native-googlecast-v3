@@ -38,6 +38,34 @@ Make the following changes to `./android/app/src/main/java/your.package/MainActi
 
 # Usage
 
-** SUBJECT TO CHANGE REALLY REALLY SOON **
+#### Import
 
     import CastButton, { GoogleCastV3 } from 'react-native-googlecastv3'
+
+#### Render the Cast button
+
+The CastButton will appear and disappear depending on cast device availability, and show the current connection status:
+
+    <View>
+      <CastButton />
+    </View>
+
+#### Send messages to a connected Cast device
+
+Using the namespace declared in strings.xml:
+
+    GoogleCastV3.send('WHADDUP')
+
+Using some other namespace:
+
+    GoogleCastV3.send('urn:x-cast:some.other.namespace', 'WHADDUP')
+
+#### Listen to things
+
+    GoogleCastV3.addCastStateListener(state => {
+      // state is one of: GoogleCastV3.NO_DEVICES_AVAILABLE, GoogleCastV3.NOT_CONNECTED, GoogleCastV3.CONNECTING, GoogleCastV3.CONNECTED
+    })
+
+    GoogleCastV3.addCastMessageListener(message => {
+      // message is: { namespace: 'urn:x-cast:your.own.namespace', message: String }
+    })

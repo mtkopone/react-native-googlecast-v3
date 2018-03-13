@@ -3,16 +3,18 @@
  */
 import { DeviceEventEmitter, NativeModules, requireNativeComponent, ViewPropTypes } from 'react-native'
 
-export const GoogleCastV3 = NativeModules.GoogleCastV3
+const NativeGoogleCastV3 = NativeModules.GoogleCastV3
 
-// TODO: wrap GoogleCastV3+DeviceEventEmitter into a more usable API.
+export const GoogleCastV3 = {
+  ...NativeGoogleCastV3,
 
-const originalSend = GoogleCastV3.send
-
-GoogleCastV3.send = (a, b) => {
-  (b === undefined)
-    ? originalSend(GoogleCastV3.namespace, a)
-    : originalSend(a, b)
+  send: (a, b) => {
+    (b === undefined)
+      ? NativeGoogleCastV3.send(NativeGoogleCastV3.namespace, a)
+      : NativeGoogleCastV3.send(a, b)
+  },
+  addCastStateListener: (fn) => DeviceEventEmitter.addListener('googleCastStateChanged', fn),
+  addCastMessageListener: (fn) => DeviceEventEmitter.addListener('googleCastMessage', fn),
 }
 
 const CastButton = requireNativeComponent('CastButton', {
