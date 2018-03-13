@@ -2,11 +2,13 @@
 
 Google Cast SDK v3 support for react-Native
 
-Only Android at the moment, iOS to come...
+## CAVEATS!
+* Only Android at the moment, iOS to come...
+* Only supports talking to your custom receiver thru a custom channel at the moment, so the default use-case of playing some media is currently **NOT** supported. Sorry, but this is what I needed today...
 
 # Installation
 
-    npm install --save <TODO:my-repo>
+    npm install --save <TODO:i-haven't-published-in-npm-yet>
     npm link
 
 ## Configuration for Android
@@ -36,4 +38,6 @@ Make the following changes to `./android/app/src/main/java/your.package/MainActi
 
 # Usage
 
-**TODO:** write me!
+** SUBJECT TO CHANGE REALLY REALLY SOON **
+
+    import CastButton, { GoogleCastV3 } from 'react-native-googlecastv3'

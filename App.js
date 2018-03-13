@@ -4,14 +4,7 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { DeviceEventEmitter, NativeModules, requireNativeComponent, ViewPropTypes } from 'react-native'
 import PropTypes from 'prop-types'
 
-const Cast = NativeModules.GoogleCastV3
-
-const CastButton = requireNativeComponent('CastButton', {
-  name: 'CastButton',
-  propTypes: {
-    ...ViewPropTypes,
-  },
-})
+import CastButton, { GoogleCastV3 } from './googlecast-v3'
 
 export default class App extends React.Component {
 
@@ -29,7 +22,7 @@ export default class App extends React.Component {
     return (
       <View style={s.container}>
         <Button title="Send!" onPress={() => {
-          Cast.send(Cast.namespace, "WHADDUP")
+          GoogleCastV3.send("WHADDUP")
         }} />
         <Text style={s.text}>messages</Text>
         <CastButton style={{ width: 100, height: 30, backgroundColor: 'red' }} />
