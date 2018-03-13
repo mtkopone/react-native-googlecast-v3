@@ -80,7 +80,7 @@ Using some other namespace:
 #### Listen to things
 
     GoogleCastV3.addCastStateListener(state => {
-      // state is one of: GoogleCastV3.NO_DEVICES_AVAILABLE, GoogleCastV3.NOT_CONNECTED, GoogleCastV3.CONNECTING, GoogleCastV3.CONNECTED
+      // state is one of: GoogleCastV3.{NO_DEVICES_AVAILABLE, NOT_CONNECTED, CONNECTING or CONNECTED}
     })
 
     GoogleCastV3.addCastMessageListener(message => {
