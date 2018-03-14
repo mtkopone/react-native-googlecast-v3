@@ -76,6 +76,12 @@ To trigger showing the device modal from another component, save a reference to 
     // elsewhere in your component
     this.myCastButton.click()
 
+#### Get information about the currently connected device
+
+     GoogleCastV3.getCurrentDevice().then(device => {
+        // device: null || { id, model, name, version }
+     })
+
 #### Send messages to a connected Cast device
 
 Using the namespace declared in you AndroidManifest.xml:
