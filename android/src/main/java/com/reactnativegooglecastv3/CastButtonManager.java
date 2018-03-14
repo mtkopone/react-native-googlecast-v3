@@ -1,9 +1,14 @@
 package com.reactnativegooglecastv3;
 
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.MediaRouteButton;
+import android.support.v7.view.ContextThemeWrapper;
 
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 
 class CastButtonManager extends SimpleViewManager<MediaRouteButton> {
@@ -18,4 +23,17 @@ class CastButtonManager extends SimpleViewManager<MediaRouteButton> {
         CastButtonFactory.setUpMediaRouteButton(ctx.getApplicationContext(), button);
         return button;
     }
+
+    @ReactProp(name = "color", customType = "Color")
+    public void setColor(MediaRouteButton view, int color) {
+        ContextThemeWrapper ctw = new ContextThemeWrapper(view.getContext(), android.support.v7.mediarouter.R.style.Theme_MediaRouter);
+        TypedArray a = ctw.obtainStyledAttributes(null,
+                android.support.v7.mediarouter.R.styleable.MediaRouteButton, android.support.v7.mediarouter.R.attr.mediaRouteButtonStyle, 0);
+        Drawable drawable = a.getDrawable(
+                android.support.v7.mediarouter.R.styleable.MediaRouteButton_externalRouteEnabledDrawable);
+        a.recycle();
+        DrawableCompat.setTint(drawable, color);
+        view.setRemoteIndicatorDrawable(drawable);
+    }
+
 }

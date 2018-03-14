@@ -1,4 +1,5 @@
 import { DeviceEventEmitter, NativeModules, requireNativeComponent, ViewPropTypes } from 'react-native'
+import PropTypes from 'prop-types'
 
 const NativeGoogleCastV3 = NativeModules.GoogleCastV3
 
@@ -22,6 +23,7 @@ const CastButton = requireNativeComponent('CastButton', {
   name: 'CastButton',
   propTypes: {
     ...ViewPropTypes,
+    color: PropTypes.string,
   },
 })
 
