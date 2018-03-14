@@ -65,8 +65,16 @@ Make the following changes to `./android/app/src/main/java/your.package/MainActi
 The CastButton will appear and disappear depending on cast device availability, and show the current connection status:
 
     <View>
-      <CastButton />
+      <CastButton color="#f00 (optional)" />
     </View>
+
+To trigger showing the device modal from another component, save a reference to the CastButton, and call `click()` on it:
+
+    // render:
+    <CastButton ref={c => this.myCastButton = c } ... />
+
+    // elsewhere in your component
+    this.myCastButton.click()
 
 #### Send messages to a connected Cast device
 
