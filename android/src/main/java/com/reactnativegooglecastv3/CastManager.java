@@ -9,13 +9,12 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.CastDevice;
-import com.google.android.gms.cast.framework.CastContext;
-import com.google.android.gms.cast.framework.CastSession;
-import com.google.android.gms.cast.framework.CastStateListener;
-import com.google.android.gms.cast.framework.SessionManager;
+import com.google.android.gms.cast.framework.*;
 
 import java.io.IOException;
 
+import static com.google.android.gms.cast.framework.CastState.CONNECTED;
+import static com.google.android.gms.cast.framework.CastState.CONNECTING;
 import static com.reactnativegooglecastv3.GoogleCastPackage.NAMESPACE;
 import static com.reactnativegooglecastv3.GoogleCastPackage.TAG;
 import static com.reactnativegooglecastv3.GoogleCastPackage.metadata;
@@ -28,7 +27,7 @@ public class CastManager {
     final SessionManager sessionManager;
     final CastStateListenerImpl castStateListener;
     ReactContext reactContext;
-
+    CastDevice castDevice;
 
     CastManager(Context parent) {
         this.parent = parent;
@@ -57,7 +56,12 @@ public class CastManager {
     private class CastStateListenerImpl implements CastStateListener {
         @Override
         public void onCastStateChanged(int state) {
-            Log.e("GoogleCastV3", "onCastStateChanged: " + state);
+            Log.d(TAG, "onCastStateChanged: " + state);
+            if (state == CONNECTING || state == CONNECTED) {
+                castDevice = sessionManager.getCurrentCastSession().getCastDevice();
+            } else {
+                castDevice = null;
+            }
             if (reactContext != null) reactContext
                     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit("googleCastStateChanged", state);
@@ -81,7 +85,7 @@ public class CastManager {
     private class CastMessageReceivedCallback implements Cast.MessageReceivedCallback {
         @Override
         public void onMessageReceived(CastDevice castDevice, String namespace, String message) {
-            Log.e(TAG, "onMessageReceived: " + namespace + " / " + message);
+            Log.d(TAG, "onMessageReceived: " + namespace + " / " + message);
             if (reactContext == null) return;
             WritableMap map = Arguments.createMap();
             map.putString("namespace", namespace);

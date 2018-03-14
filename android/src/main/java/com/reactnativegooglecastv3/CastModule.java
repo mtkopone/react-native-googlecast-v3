@@ -1,10 +1,10 @@
 package com.reactnativegooglecastv3;
 
 import android.os.Handler;
+import android.util.Log;
 
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.*;
+import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.framework.CastState;
 
 import java.util.HashMap;
@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static com.reactnativegooglecastv3.GoogleCastPackage.APP_ID;
 import static com.reactnativegooglecastv3.GoogleCastPackage.NAMESPACE;
+import static com.reactnativegooglecastv3.GoogleCastPackage.TAG;
 
 public class CastModule extends ReactContextBaseJavaModule {
     final ReactApplicationContext reactContext;
@@ -29,9 +30,25 @@ public class CastModule extends ReactContextBaseJavaModule {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                CastManager.instance.sendMessage(namespace, message);
+            CastManager.instance.sendMessage(namespace, message);
             }
         });
+    }
+
+    @ReactMethod @SuppressWarnings("unused")
+    public void getCurrentDevice(Promise promise) {
+        CastDevice d = CastManager.instance.castDevice;
+        Log.d(TAG, "getCurrentDevice: " + d);
+        if (d == null) {
+            promise.resolve(null);
+        } else {
+            WritableMap map = Arguments.createMap();
+            map.putString("id", d.getDeviceId());
+            map.putString("version", d.getDeviceVersion());
+            map.putString("name", d.getFriendlyName());
+            map.putString("model", d.getModelName());
+            promise.resolve(map);
+        }
     }
 
     @ReactMethod @SuppressWarnings("unused")
