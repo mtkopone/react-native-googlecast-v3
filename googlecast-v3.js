@@ -1,4 +1,5 @@
-import { DeviceEventEmitter, NativeModules, requireNativeComponent, ViewPropTypes } from 'react-native'
+import React, { PureComponent } from 'react'
+import ReactNative, { DeviceEventEmitter, NativeModules, requireNativeComponent, UIManager, ViewPropTypes } from 'react-native'
 import PropTypes from 'prop-types'
 
 const NativeGoogleCastV3 = NativeModules.GoogleCastV3
@@ -19,12 +20,28 @@ export const GoogleCastV3 = {
   addCastMessageListener: (fn) => DeviceEventEmitter.addListener('googleCastMessage', fn),
 }
 
-const CastButton = requireNativeComponent('CastButton', {
-  name: 'CastButton',
-  propTypes: {
+class CastButton extends PureComponent {
+  static propTypes = {
     ...ViewPropTypes,
     color: PropTypes.string,
-  },
-})
+  }
+
+  click = () => {
+    UIManager.dispatchViewManagerCommand(
+      ReactNative.findNodeHandle(this),
+      UIManager.CastButton.Commands.click,
+      [],
+    )
+  }
+
+  render() {
+    return (
+      <NativeCastButton {...this.props} />
+    );
+  }
+
+}
+
+const NativeCastButton = requireNativeComponent('CastButton', CastButton)
 
 export default CastButton

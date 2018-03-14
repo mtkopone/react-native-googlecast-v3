@@ -6,10 +6,16 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.MediaRouteButton;
 import android.support.v7.view.ContextThemeWrapper;
 
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.google.android.gms.cast.framework.CastButtonFactory;
+
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 class CastButtonManager extends SimpleViewManager<MediaRouteButton> {
     @Override
@@ -36,4 +42,13 @@ class CastButtonManager extends SimpleViewManager<MediaRouteButton> {
         view.setRemoteIndicatorDrawable(drawable);
     }
 
+    @Override
+    public Map<String, Integer> getCommandsMap() {
+        return MapBuilder.of("click", 1);
+    }
+
+    @Override
+    public void receiveCommand(MediaRouteButton view, int commandId, @Nullable ReadableArray args) {
+        if (commandId == 1) view.performClick();
+    }
 }
