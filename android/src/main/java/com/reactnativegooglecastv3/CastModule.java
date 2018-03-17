@@ -22,6 +22,11 @@ public class CastModule extends ReactContextBaseJavaModule {
         super(reactContext);
         this.reactContext = reactContext;
         handler = new Handler(reactContext.getMainLooper());
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
         CastManager.instance.reactContext = reactContext;
     }
 

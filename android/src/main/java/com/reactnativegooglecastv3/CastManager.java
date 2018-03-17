@@ -36,7 +36,6 @@ public class CastManager {
         this.castStateListener = new CastStateListenerImpl();
         castContext.addCastStateListener(this.castStateListener);
         sessionManager.addSessionManagerListener(new SessionManagerListenerImpl(), CastSession.class);
-
     }
 
     public static void init(Context ctx) {
