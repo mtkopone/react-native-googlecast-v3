@@ -39,15 +39,14 @@ Add the following inside the `<application>`-element in `./android/app/src/main/
       android:name="com.reactnativegooglecastv3.castNamespace"
       android:value="urn:x-cast:your.own.namespace" />
 
-Make the following changes to `./android/app/src/main/java/your.package/MainActivity.java`:
+Update your `./android/app/src/main/java/your.package/MainActivity.java` to extend `com.facebook.react.ReactFragmentActivity`
 
-* Make MainActivity extend `com.facebook.react.ReactFragmentActivity`
-
-* Override onStart, and add CastManager initialization:
+Update your `./android/app/src/main/java/your.package/MainApplication.java`,
+override onCreate, and add CastManager initialization:
 
       @Override
-      protected void onStart() {
-        super.onStart();
+      public void onCreate() {
+        super.onCreate();
         com.reactnativegooglecastv3.CastManager.init(this);
       }
 
