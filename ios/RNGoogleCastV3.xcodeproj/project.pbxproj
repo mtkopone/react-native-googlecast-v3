@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8848AF6925FE17937369BBFE /* libPods-RNGoogleCastV3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79514A2E5B41DE9A55C7BF34 /* libPods-RNGoogleCastV3.a */; };
 		CE578D72205C347300F75099 /* CastButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE578D71205C347300F75099 /* CastButtonManager.m */; };
 		CE578D75205C354C00F75099 /* GoogleCastV3.m in Sources */ = {isa = PBXBuildFile; fileRef = CE578D74205C354C00F75099 /* GoogleCastV3.m */; };
 /* End PBXBuildFile section */
@@ -26,12 +25,9 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNGoogleCastV3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNGoogleCastV3.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		79514A2E5B41DE9A55C7BF34 /* libPods-RNGoogleCastV3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNGoogleCastV3.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BB658993948BE8846C87FCFB /* Pods-RNGoogleCastV3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNGoogleCastV3.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RNGoogleCastV3/Pods-RNGoogleCastV3.debug.xcconfig"; sourceTree = "<group>"; };
 		CE578D71205C347300F75099 /* CastButtonManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CastButtonManager.m; sourceTree = "<group>"; };
 		CE578D73205C354C00F75099 /* GoogleCastV3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleCastV3.h; sourceTree = "<group>"; };
 		CE578D74205C354C00F75099 /* GoogleCastV3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleCastV3.m; sourceTree = "<group>"; };
-		E4C272C1DF5BDDDA05B3BF6D /* Pods-RNGoogleCastV3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNGoogleCastV3.release.xcconfig"; path = "Pods/Target Support Files/Pods-RNGoogleCastV3/Pods-RNGoogleCastV3.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +35,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8848AF6925FE17937369BBFE /* libPods-RNGoogleCastV3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,15 +49,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		58465D10421ECE9069B0D598 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				BB658993948BE8846C87FCFB /* Pods-RNGoogleCastV3.debug.xcconfig */,
-				E4C272C1DF5BDDDA05B3BF6D /* Pods-RNGoogleCastV3.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
@@ -70,7 +56,6 @@
 				CE578D74205C354C00F75099 /* GoogleCastV3.m */,
 				CE578D71205C347300F75099 /* CastButtonManager.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
-				58465D10421ECE9069B0D598 /* Pods */,
 				C766C7A64320350DC12B1D54 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -78,7 +63,6 @@
 		C766C7A64320350DC12B1D54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				79514A2E5B41DE9A55C7BF34 /* libPods-RNGoogleCastV3.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -90,11 +74,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "RNGoogleCastV3" */;
 			buildPhases = (
-				9E0AA21C5FA7FE74C99B4B83 /* [CP] Check Pods Manifest.lock */,
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
 				58B511D91A9E6C8500147676 /* CopyFiles */,
-				FD77808A717C3CF637248F14 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -135,42 +117,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		9E0AA21C5FA7FE74C99B4B83 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RNGoogleCastV3-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FD77808A717C3CF637248F14 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RNGoogleCastV3/Pods-RNGoogleCastV3-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		58B511D71A9E6C8500147676 /* Sources */ = {
@@ -268,7 +214,6 @@
 		};
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB658993948BE8846C87FCFB /* Pods-RNGoogleCastV3.debug.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -285,7 +230,6 @@
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E4C272C1DF5BDDDA05B3BF6D /* Pods-RNGoogleCastV3.release.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
