@@ -58,6 +58,7 @@ public class CastModule extends ReactContextBaseJavaModule {
 
     @ReactMethod @SuppressWarnings("unused")
     public void triggerStateChange() {
+        if (CastManager.instance.castContext == null) return;
         handler.post(new Runnable() {
             @Override
             public void run() {

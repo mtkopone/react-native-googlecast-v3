@@ -9,7 +9,12 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.CastDevice;
-import com.google.android.gms.cast.framework.*;
+import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.CastSession;
+import com.google.android.gms.cast.framework.CastStateListener;
+import com.google.android.gms.cast.framework.SessionManager;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.IOException;
 
@@ -31,11 +36,18 @@ public class CastManager {
 
     CastManager(Context parent) {
         this.parent = parent;
-        this.castContext = CastContext.getSharedInstance(parent);
-        this.sessionManager = castContext.getSessionManager();
-        this.castStateListener = new CastStateListenerImpl();
-        castContext.addCastStateListener(this.castStateListener);
-        sessionManager.addSessionManagerListener(new SessionManagerListenerImpl(), CastSession.class);
+        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(parent) == ConnectionResult.SUCCESS) {
+            this.castContext = CastContext.getSharedInstance(parent);
+            this.sessionManager = castContext.getSessionManager();
+            this.castStateListener = new CastStateListenerImpl();
+            castContext.addCastStateListener(this.castStateListener);
+            sessionManager.addSessionManagerListener(new SessionManagerListenerImpl(), CastSession.class);
+        } else {
+            Log.w(TAG, "Google Play services not installed on device. Cannot cast.");
+            this.castContext = null;
+            this.sessionManager = null;
+            this.castStateListener = null;
+        }
     }
 
     public static void init(Context ctx) {

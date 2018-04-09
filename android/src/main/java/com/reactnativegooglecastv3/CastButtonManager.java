@@ -12,6 +12,8 @@ import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.Map;
 
@@ -26,7 +28,9 @@ class CastButtonManager extends SimpleViewManager<MediaRouteButton> {
     @Override
     protected MediaRouteButton createViewInstance(ThemedReactContext ctx) {
         MediaRouteButton button = new MediaRouteButton(ctx);
-        CastButtonFactory.setUpMediaRouteButton(ctx.getApplicationContext(), button);
+        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(ctx) == ConnectionResult.SUCCESS) {
+            CastButtonFactory.setUpMediaRouteButton(ctx.getApplicationContext(), button);
+        }
         return button;
     }
 
