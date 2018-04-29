@@ -82,6 +82,15 @@ public class CastManager {
     private class SessionManagerListenerImpl extends SessionManagerListenerBase {
         @Override
         public void onSessionStarted(CastSession session, String sessionId) {
+            setMessageReceivedCallbacks(session);
+        }
+
+        @Override
+        public void onSessionResumed(CastSession session, boolean wasSuspended) {
+            setMessageReceivedCallbacks(session);
+        }
+
+        private void setMessageReceivedCallbacks(CastSession session) {
             try {
                 if (reactContext != null)
                     session.setMessageReceivedCallbacks(
