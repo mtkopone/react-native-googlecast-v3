@@ -36,18 +36,25 @@ public class CastManager {
 
     CastManager(Context parent) {
         this.parent = parent;
+        CastContext castContext = null;
+        SessionManager sessionManager = null;
+        CastStateListenerImpl castStateListener = null;
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(parent) == ConnectionResult.SUCCESS) {
-            this.castContext = CastContext.getSharedInstance(parent);
-            this.sessionManager = castContext.getSessionManager();
-            this.castStateListener = new CastStateListenerImpl();
-            castContext.addCastStateListener(this.castStateListener);
-            sessionManager.addSessionManagerListener(new SessionManagerListenerImpl(), CastSession.class);
+            try {
+                castContext = CastContext.getSharedInstance(parent); // possible RuntimeException from this
+                sessionManager = castContext.getSessionManager();
+                castStateListener = new CastStateListenerImpl();
+                castContext.addCastStateListener(castStateListener);
+                sessionManager.addSessionManagerListener(new SessionManagerListenerImpl(), CastSession.class);
+            } catch (RuntimeException re) {
+                Log.w(TAG, "RuntimeException in CastManager.<init>. Cannot cast.", re);
+            }
         } else {
             Log.w(TAG, "Google Play services not installed on device. Cannot cast.");
-            this.castContext = null;
-            this.sessionManager = null;
-            this.castStateListener = null;
         }
+        this.castContext = castContext;
+        this.sessionManager = sessionManager;
+        this.castStateListener = castStateListener;
     }
 
     public static void init(Context ctx) {
