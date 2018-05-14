@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.MediaRouteButton;
 import android.support.v7.view.ContextThemeWrapper;
+import android.util.Log;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.MapBuilder;
@@ -14,6 +15,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import static com.reactnativegooglecastv3.GoogleCastPackage.TAG;
 
 import java.util.Map;
 
@@ -29,7 +31,11 @@ class CastButtonManager extends SimpleViewManager<MediaRouteButton> {
     protected MediaRouteButton createViewInstance(ThemedReactContext ctx) {
         MediaRouteButton button = new MediaRouteButton(ctx);
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(ctx) == ConnectionResult.SUCCESS) {
-            CastButtonFactory.setUpMediaRouteButton(ctx.getApplicationContext(), button);
+            try {
+                CastButtonFactory.setUpMediaRouteButton(ctx.getApplicationContext(), button);
+            } catch (RuntimeException re) {
+                Log.w(TAG, "RuntimeException in CastButtonManager.createViewInstance. Cannot create button.", re);
+            }
         }
         return button;
     }
