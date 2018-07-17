@@ -64,7 +64,11 @@ public class CastManager {
     public void sendMessage(String namespace, String message) {
         CastSession session = sessionManager.getCurrentCastSession();
         if (session == null) return;
-        session.sendMessage(namespace, message);
+        try {
+            session.sendMessage(namespace, message);
+        } catch (RuntimeException re) {
+            Log.w(TAG, "RuntimeException in CastManager.sendMessage.", re);
+        }
     }
 
     public void triggerStateChange() {
