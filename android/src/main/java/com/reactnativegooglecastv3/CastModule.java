@@ -41,6 +41,16 @@ public class CastModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod @SuppressWarnings("unused")
+    public void disconnect() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.disconnect();
+            }
+        });
+    }
+
+    @ReactMethod @SuppressWarnings("unused")
     public void getCurrentDevice(Promise promise) {
         CastDevice d = CastManager.instance.castDevice;
         Log.d(TAG, "getCurrentDevice: " + d);

@@ -71,6 +71,14 @@ public class CastManager {
         }
     }
 
+    public void disconnect() {
+        try {
+            sessionManager.endCurrentSession(true);
+        } catch (RuntimeException re) {
+            Log.w(TAG, "RuntimeException in CastManager.disconnect.", re);
+        }
+    }
+
     public void triggerStateChange() {
         this.castStateListener.onCastStateChanged(castContext.getCastState());
     }
