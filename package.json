@@ -10,7 +10,7 @@
     "url": "https://github.com/mtkopone/react-native-googlecast-v3"
   },
   "devDependencies": {
-    "np": "^2.20.1"
+    "np": "^3.0.4"
   },
   "dependencies": {},
   "peerDependencies": {
