@@ -1,14 +1,18 @@
 package com.reactnativegooglecastv3;
 
 import android.os.Handler;
-import android.util.Log;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactMethod;
 
 import com.facebook.react.bridge.*;
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.framework.CastState;
-
+import android.util.Log;
+import android.os.Handler;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.Thread;
+
 
 import static com.reactnativegooglecastv3.GoogleCastPackage.APP_ID;
 import static com.reactnativegooglecastv3.GoogleCastPackage.NAMESPACE;
@@ -36,6 +40,87 @@ public class CastModule extends ReactContextBaseJavaModule {
             @Override
             public void run() {
             CastManager.instance.sendMessage(namespace, message);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void setMediaMetadata(final String title, final String subtitle, final String imageUri) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.setMediaMetadata(title, subtitle, imageUri);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void resetMediaMetadata() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.resetMediaMetadata();
+            }
+        });
+    }
+
+    @ReactMethod
+    public void loadVideo(final String videoUri) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.loadVideo(videoUri);
+            }
+        });
+    }
+    
+    @ReactMethod
+    public void loadAudio(final String audioUri) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.loadAudio(audioUri);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void getMediaState(final Callback callback) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.getMediaState( callback );
+            }
+        });
+    }
+
+    @ReactMethod
+    public void togglePlayerState() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.togglePlayerState();
+            }
+        });
+    }
+
+    @ReactMethod @SuppressWarnings("unused")
+    public void seek(final int position) {
+        if (CastManager.instance.castContext == null) return;
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.seek(position);
+            }
+        });
+    }
+
+    @ReactMethod
+    public void resetCasting() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.resetCasting();
             }
         });
     }
@@ -91,6 +176,11 @@ public class CastModule extends ReactContextBaseJavaModule {
         constants.put("NOT_CONNECTED", CastState.NOT_CONNECTED);
         constants.put("CONNECTING", CastState.CONNECTING);
         constants.put("CONNECTED", CastState.CONNECTED);
+        constants.put("PLAYER_STATE_UNKNOWN", 0);
+        constants.put("PLAYER_STATE_IDLE", 1);
+        constants.put("PLAYER_STATE_PLAYING", 2);
+        constants.put("PLAYER_STATE_PAUSED", 3);
+        constants.put("PLAYER_STATE_BUFFERING", 4);
         return constants;
     }
 
