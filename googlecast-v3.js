@@ -44,7 +44,7 @@ class CastButton extends PureComponent {
   click = () => {
     UIManager.dispatchViewManagerCommand(
       ReactNative.findNodeHandle(this),
-      UIManager.CastButton.Commands.click,
+      UIManager.getViewManagerConfig('CastButton').Commands.click,
       [],
     )
   }
