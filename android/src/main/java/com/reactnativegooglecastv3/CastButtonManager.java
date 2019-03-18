@@ -1,9 +1,10 @@
 package com.reactnativegooglecastv3;
 
+import android.app.Activity;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.MediaRouteButton;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 
@@ -15,21 +16,22 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import static com.reactnativegooglecastv3.GoogleCastPackage.TAG;
 
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
-class CastButtonManager extends SimpleViewManager<MediaRouteButton> {
+import static com.reactnativegooglecastv3.GoogleCastPackage.TAG;
+
+class CastButtonManager extends SimpleViewManager<CustomMediaRouteButton> {
     @Override
     public String getName() {
         return "CastButton";
     }
 
     @Override
-    protected MediaRouteButton createViewInstance(ThemedReactContext ctx) {
-        MediaRouteButton button = new MediaRouteButton(ctx);
+    protected CustomMediaRouteButton createViewInstance(ThemedReactContext ctx) {
+        CustomMediaRouteButton button = new CustomMediaRouteButton(ctx);
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(ctx) == ConnectionResult.SUCCESS) {
             try {
                 CastButtonFactory.setUpMediaRouteButton(ctx.getApplicationContext(), button);
@@ -41,7 +43,7 @@ class CastButtonManager extends SimpleViewManager<MediaRouteButton> {
     }
 
     @ReactProp(name = "color", customType = "Color")
-    public void setColor(MediaRouteButton view, int color) {
+    public void setColor(CustomMediaRouteButton view, int color) {
         ContextThemeWrapper ctw = new ContextThemeWrapper(view.getContext(), android.support.v7.mediarouter.R.style.Theme_MediaRouter);
         TypedArray a = ctw.obtainStyledAttributes(null,
                 android.support.v7.mediarouter.R.styleable.MediaRouteButton, android.support.v7.mediarouter.R.attr.mediaRouteButtonStyle, 0);
@@ -58,7 +60,13 @@ class CastButtonManager extends SimpleViewManager<MediaRouteButton> {
     }
 
     @Override
-    public void receiveCommand(MediaRouteButton view, int commandId, @Nullable ReadableArray args) {
+    public void receiveCommand(CustomMediaRouteButton view, int commandId, @Nullable ReadableArray args) {
+        Activity activity = view.context.getCurrentActivity();
+        if (activity == null) return;
+        if (activity instanceof FragmentActivity) {
+            boolean isTooLate = ((FragmentActivity)activity).getSupportFragmentManager().isStateSaved();
+            if (isTooLate) return;
+        }
         if (commandId == 1) view.performClick();
     }
 }
