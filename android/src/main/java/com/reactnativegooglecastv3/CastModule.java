@@ -5,8 +5,14 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 
 import com.facebook.react.bridge.*;
+import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.framework.CastState;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.os.Handler;
 import java.util.HashMap;
@@ -18,7 +24,7 @@ import static com.reactnativegooglecastv3.GoogleCastPackage.APP_ID;
 import static com.reactnativegooglecastv3.GoogleCastPackage.NAMESPACE;
 import static com.reactnativegooglecastv3.GoogleCastPackage.TAG;
 
-public class CastModule extends ReactContextBaseJavaModule {
+public class CastModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
     final ReactApplicationContext reactContext;
     final Handler handler;
 
@@ -26,6 +32,7 @@ public class CastModule extends ReactContextBaseJavaModule {
         super(reactContext);
         this.reactContext = reactContext;
         handler = new Handler(reactContext.getMainLooper());
+        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
@@ -73,7 +80,7 @@ public class CastModule extends ReactContextBaseJavaModule {
             }
         });
     }
-    
+
     @ReactMethod
     public void loadAudio(final String audioUri) {
         handler.post(new Runnable() {
@@ -187,5 +194,36 @@ public class CastModule extends ReactContextBaseJavaModule {
     @Override
     public void onCatalystInstanceDestroy() {
         CastManager.instance.reactContext = null;
+    }
+
+    @Override
+    public void onHostResume() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.addStateListeners();
+            }
+        });
+
+    }
+
+    @Override
+    public void onHostPause() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.removeStateListeners();
+            }
+        });
+    }
+
+    @Override
+    public void onHostDestroy() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.removeStateListeners();
+            }
+        });
     }
 }

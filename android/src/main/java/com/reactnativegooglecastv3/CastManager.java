@@ -3,6 +3,8 @@ package com.reactnativegooglecastv3;
 import java.lang.Math;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import com.facebook.react.bridge.ReactContext;
 import com.google.android.gms.common.ConnectionResult;
@@ -46,6 +48,7 @@ public class CastManager {
     final CastContext castContext;
     final SessionManager sessionManager;
     final CastStateListenerImpl castStateListener;
+    final SessionManagerListenerImpl sessionManagerListener;
     ReactContext reactContext;
     CastDevice castDevice;
 
@@ -54,23 +57,36 @@ public class CastManager {
 
     CastManager(Context parent) {
         this.parent = parent;
+
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(parent) == ConnectionResult.SUCCESS) {
             this.castContext = CastContext.getSharedInstance(parent);
             this.sessionManager = castContext.getSessionManager();
             this.castStateListener = new CastStateListenerImpl();
-            castContext.addCastStateListener(this.castStateListener);
-            sessionManager.addSessionManagerListener(new SessionManagerListenerImpl(), CastSession.class);
-        } 
+            this.sessionManagerListener = new SessionManagerListenerImpl();
+        }
         else {
             Log.w(TAG, "Google Play services not installed on device. Cannot cast.");
             this.castContext = null;
             this.sessionManager = null;
             this.castStateListener = null;
+            this.sessionManagerListener = null;
         }
     }
 
     public static void init(Context ctx) {
         instance = new CastManager(ctx);
+    }
+
+    void addStateListeners() {
+        if (this.castContext == null || this.sessionManager == null) { return; }
+        castContext.addCastStateListener(this.castStateListener);
+        sessionManager.addSessionManagerListener(this.sessionManagerListener, CastSession.class);
+    }
+
+    void removeStateListeners() {
+        if (this.castContext == null || this.sessionManager == null) { return; }
+        castContext.removeCastStateListener(this.castStateListener);
+        sessionManager.removeSessionManagerListener(this.sessionManagerListener, CastSession.class);
     }
 
     public void sendMessage(String namespace, String message) {
@@ -93,13 +109,13 @@ public class CastManager {
 
     public void loadVideo(String videoUri) {
         CastSession session = sessionManager.getCurrentCastSession();
-        
+
         MediaInfo mediaInfo = new MediaInfo.Builder(videoUri)
                 .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
                 .setContentType("video/mp4")
                 .setMetadata(mediaMetadata)
                 .build();
-                
+
         mRemoteMediaClient = session.getRemoteMediaClient();
         mRemoteMediaClient.addListener(new RemoteMediaClient.Listener()
         {
@@ -111,9 +127,9 @@ public class CastManager {
             public void onPreloadStatusUpdated() { }
             @Override
             public void onQueueStatusUpdated() { }
-            @Override 
+            @Override
             public void onSendingRemoteMediaRequest() { }
-            
+
             @Override
             public void onStatusUpdated() {
                 if (mRemoteMediaClient != null) {
@@ -127,10 +143,10 @@ public class CastManager {
         mRemoteMediaClient.addProgressListener(new ProgressListenerImpl(), 500);
         mRemoteMediaClient.load(mediaInfo, true, 0);
     }
-    
+
     public void loadAudio(String audioUri) {
         CastSession session = sessionManager.getCurrentCastSession();
-        
+
         MediaInfo mediaInfo = new MediaInfo.Builder(audioUri)
                 .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
                 .setContentType("audio/mpeg")
@@ -147,7 +163,7 @@ public class CastManager {
             public void onPreloadStatusUpdated() { }
             @Override
             public void onQueueStatusUpdated() { }
-            @Override 
+            @Override
             public void onSendingRemoteMediaRequest() { }
 
             @Override
@@ -174,7 +190,7 @@ public class CastManager {
     }
 
     public void togglePlayerState() {
-        if (mRemoteMediaClient.isPlaying()) 
+        if (mRemoteMediaClient.isPlaying())
             mRemoteMediaClient.pause();
         else if (mRemoteMediaClient.isPaused())
             mRemoteMediaClient.play();
@@ -216,6 +232,7 @@ public class CastManager {
     }
 
     private class ProgressListenerImpl implements ProgressListener {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onProgressUpdated(long progressMs, long durationMs) {
             int progress = Math.toIntExact(progressMs / 1000);
