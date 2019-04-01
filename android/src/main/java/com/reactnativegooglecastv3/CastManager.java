@@ -1,38 +1,30 @@
 package com.reactnativegooglecastv3;
 
-import java.lang.Math;
-
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
-import com.facebook.react.bridge.ReactContext;
-import com.google.android.gms.common.ConnectionResult;
 
-import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactContext;
-
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.CastDevice;
-import com.google.android.gms.cast.MediaMetadata;
 import com.google.android.gms.cast.MediaInfo;
+import com.google.android.gms.cast.MediaMetadata;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.CastSession;
-import com.google.android.gms.cast.framework.CastState;
 import com.google.android.gms.cast.framework.CastStateListener;
 import com.google.android.gms.cast.framework.SessionManager;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient.ProgressListener;
-
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.images.WebImage;
 
-import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
 import java.io.IOException;
 
 import static com.google.android.gms.cast.framework.CastState.CONNECTED;
