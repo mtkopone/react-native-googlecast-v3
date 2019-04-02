@@ -81,7 +81,11 @@ public class CastManager {
     void sendMessage(String namespace, String message) {
         CastSession session = sessionManager.getCurrentCastSession();
         if (session == null) return;
-        session.sendMessage(namespace, message);
+        try {
+            session.sendMessage(namespace, message);
+        } catch (Exception e) {
+            Log.e(TAG, "Could not send a cast message: ", e);
+        }
     }
 
     void setMediaMetadata(String title, String subtitle, String imageUri) {
