@@ -80,7 +80,7 @@ public class CastManager {
 
     void sendMessage(String namespace, String message) {
         CastSession session = sessionManager.getCurrentCastSession();
-        if (session == null) return;
+        if (session == null || !session.isConnected()) return;
         try {
             session.sendMessage(namespace, message);
         } catch (Exception e) {
