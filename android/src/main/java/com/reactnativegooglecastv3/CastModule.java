@@ -1,24 +1,21 @@
 package com.reactnativegooglecastv3;
 
 import android.os.Handler;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactMethod;
+import android.util.Log;
 
-import com.facebook.react.bridge.*;
-import com.google.android.gms.cast.Cast;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.LifecycleEventListener;
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.framework.CastState;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.os.Handler;
 import java.util.HashMap;
 import java.util.Map;
-import java.lang.Thread;
-
 
 import javax.annotation.Nonnull;
 
@@ -53,7 +50,7 @@ public class CastModule extends ReactContextBaseJavaModule implements LifecycleE
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void setMediaMetadata(final String title, final String subtitle, final String imageUri) {
         handler.post(new Runnable() {
             @Override
@@ -63,7 +60,7 @@ public class CastModule extends ReactContextBaseJavaModule implements LifecycleE
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void resetMediaMetadata() {
         handler.post(new Runnable() {
             @Override
@@ -73,7 +70,7 @@ public class CastModule extends ReactContextBaseJavaModule implements LifecycleE
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void loadVideo(final String videoUri) {
         handler.post(new Runnable() {
             @Override
@@ -83,7 +80,7 @@ public class CastModule extends ReactContextBaseJavaModule implements LifecycleE
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void loadAudio(final String audioUri) {
         handler.post(new Runnable() {
             @Override
@@ -93,7 +90,7 @@ public class CastModule extends ReactContextBaseJavaModule implements LifecycleE
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void getMediaState(final Callback callback) {
         handler.post(new Runnable() {
             @Override
@@ -103,7 +100,7 @@ public class CastModule extends ReactContextBaseJavaModule implements LifecycleE
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void togglePlayerState() {
         handler.post(new Runnable() {
             @Override
@@ -124,7 +121,7 @@ public class CastModule extends ReactContextBaseJavaModule implements LifecycleE
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void resetCasting() {
         handler.post(new Runnable() {
             @Override
