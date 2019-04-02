@@ -37,16 +37,16 @@ public class CastManager {
     static CastManager instance;
 
     final CastContext castContext;
-    final SessionManager sessionManager;
-    final CastStateListenerImpl castStateListener;
-    final SessionManagerListenerImpl sessionManagerListener;
+    private final SessionManager sessionManager;
+    private final CastStateListenerImpl castStateListener;
+    private final SessionManagerListenerImpl sessionManagerListener;
     ReactContext reactContext;
     CastDevice castDevice;
 
-    RemoteMediaClient mRemoteMediaClient;
-    MediaMetadata mediaMetadata;
+    private RemoteMediaClient mRemoteMediaClient;
+    private MediaMetadata mediaMetadata;
 
-    CastManager(Context parent) {
+    private CastManager(Context parent) {
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(parent) == ConnectionResult.SUCCESS) {
             this.castContext = CastContext.getSharedInstance(parent);
             this.sessionManager = castContext.getSessionManager();
@@ -78,13 +78,13 @@ public class CastManager {
         sessionManager.removeSessionManagerListener(this.sessionManagerListener, CastSession.class);
     }
 
-    public void sendMessage(String namespace, String message) {
+    void sendMessage(String namespace, String message) {
         CastSession session = sessionManager.getCurrentCastSession();
         if (session == null) return;
         session.sendMessage(namespace, message);
     }
 
-    public void setMediaMetadata(String title, String subtitle, String imageUri) {
+    void setMediaMetadata(String title, String subtitle, String imageUri) {
         mediaMetadata = new MediaMetadata();
 
         mediaMetadata.putString(MediaMetadata.KEY_TITLE, title);
@@ -92,11 +92,11 @@ public class CastManager {
         mediaMetadata.addImage(new WebImage(Uri.parse(imageUri)));
     }
 
-    public void resetMediaMetadata() {
+    void resetMediaMetadata() {
         mediaMetadata = null;
     }
 
-    public void loadVideo(String videoUri) {
+    void loadVideo(String videoUri) {
         CastSession session = sessionManager.getCurrentCastSession();
 
         MediaInfo mediaInfo = new MediaInfo.Builder(videoUri)
@@ -133,7 +133,7 @@ public class CastManager {
         mRemoteMediaClient.load(mediaInfo, true, 0);
     }
 
-    public void loadAudio(String audioUri) {
+    void loadAudio(String audioUri) {
         CastSession session = sessionManager.getCurrentCastSession();
 
         MediaInfo mediaInfo = new MediaInfo.Builder(audioUri)
@@ -169,7 +169,7 @@ public class CastManager {
         mRemoteMediaClient.load(mediaInfo, true, 0);
     }
 
-    public void getMediaState(Callback callback) {
+    void getMediaState(Callback callback) {
         if (mRemoteMediaClient == null) {
             callback.invoke( 0 );
             return;
@@ -178,22 +178,22 @@ public class CastManager {
         callback.invoke( mRemoteMediaClient.getPlayerState() );
     }
 
-    public void togglePlayerState() {
+    void togglePlayerState() {
         if (mRemoteMediaClient.isPlaying())
             mRemoteMediaClient.pause();
         else if (mRemoteMediaClient.isPaused())
             mRemoteMediaClient.play();
     }
 
-    public void seek(int position) {
-        mRemoteMediaClient.seek(position, mRemoteMediaClient.RESUME_STATE_UNCHANGED);
+    void seek(int position) {
+        mRemoteMediaClient.seek(position, RemoteMediaClient.RESUME_STATE_UNCHANGED);
     }
 
-    public void resetCasting() {
+    void resetCasting() {
         mRemoteMediaClient.stop();
     }
 
-    public void disconnect() {
+    void disconnect() {
         try {
             sessionManager.endCurrentSession(true);
         } catch (RuntimeException re) {
@@ -201,7 +201,7 @@ public class CastManager {
         }
     }
 
-    public void triggerStateChange() {
+    void triggerStateChange() {
         this.castStateListener.onCastStateChanged(castContext.getCastState());
     }
 

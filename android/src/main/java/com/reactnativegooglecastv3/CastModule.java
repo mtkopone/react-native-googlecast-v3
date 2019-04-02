@@ -20,15 +20,17 @@ import java.util.Map;
 import java.lang.Thread;
 
 
+import javax.annotation.Nonnull;
+
 import static com.reactnativegooglecastv3.GoogleCastPackage.APP_ID;
 import static com.reactnativegooglecastv3.GoogleCastPackage.NAMESPACE;
 import static com.reactnativegooglecastv3.GoogleCastPackage.TAG;
 
 public class CastModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
-    final ReactApplicationContext reactContext;
-    final Handler handler;
+    private final ReactApplicationContext reactContext;
+    private final Handler handler;
 
-    public CastModule(ReactApplicationContext reactContext) {
+    CastModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
         handler = new Handler(reactContext.getMainLooper());
@@ -169,6 +171,7 @@ public class CastModule extends ReactContextBaseJavaModule implements LifecycleE
         });
     }
 
+    @Nonnull
     @Override
     public String getName() {
         return "GoogleCastV3";
