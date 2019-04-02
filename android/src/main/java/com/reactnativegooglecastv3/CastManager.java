@@ -209,7 +209,7 @@ public class CastManager {
         @Override
         public void onCastStateChanged(int state) {
             Log.d(TAG, "onCastStateChanged: " + state);
-            if (state == CONNECTING || state == CONNECTED) {
+            if (sessionManager != null && (state == CONNECTING || state == CONNECTED)) {
                 castDevice = sessionManager.getCurrentCastSession().getCastDevice();
             } else {
                 castDevice = null;
