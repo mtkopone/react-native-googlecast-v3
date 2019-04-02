@@ -36,7 +36,6 @@ import static com.reactnativegooglecastv3.GoogleCastPackage.metadata;
 public class CastManager {
     static CastManager instance;
 
-    final Context parent;
     final CastContext castContext;
     final SessionManager sessionManager;
     final CastStateListenerImpl castStateListener;
@@ -48,8 +47,6 @@ public class CastManager {
     MediaMetadata mediaMetadata;
 
     CastManager(Context parent) {
-        this.parent = parent;
-
         if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(parent) == ConnectionResult.SUCCESS) {
             this.castContext = CastContext.getSharedInstance(parent);
             this.sessionManager = castContext.getSessionManager();
