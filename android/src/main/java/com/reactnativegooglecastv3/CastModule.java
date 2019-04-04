@@ -1,31 +1,37 @@
 package com.reactnativegooglecastv3;
 
 import android.os.Handler;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactMethod;
+import android.util.Log;
 
-import com.facebook.react.bridge.*;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.LifecycleEventListener;
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.framework.CastState;
-import android.util.Log;
-import android.os.Handler;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.lang.Thread;
 
+import javax.annotation.Nonnull;
 
 import static com.reactnativegooglecastv3.GoogleCastPackage.APP_ID;
 import static com.reactnativegooglecastv3.GoogleCastPackage.NAMESPACE;
 import static com.reactnativegooglecastv3.GoogleCastPackage.TAG;
 
-public class CastModule extends ReactContextBaseJavaModule {
-    final ReactApplicationContext reactContext;
-    final Handler handler;
+public class CastModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
+    private final ReactApplicationContext reactContext;
+    private final Handler handler;
 
-    public CastModule(ReactApplicationContext reactContext) {
+    CastModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
         handler = new Handler(reactContext.getMainLooper());
+        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
@@ -44,7 +50,7 @@ public class CastModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void setMediaMetadata(final String title, final String subtitle, final String imageUri) {
         handler.post(new Runnable() {
             @Override
@@ -54,7 +60,7 @@ public class CastModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void resetMediaMetadata() {
         handler.post(new Runnable() {
             @Override
@@ -64,7 +70,7 @@ public class CastModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void loadVideo(final String videoUri) {
         handler.post(new Runnable() {
             @Override
@@ -73,8 +79,8 @@ public class CastModule extends ReactContextBaseJavaModule {
             }
         });
     }
-    
-    @ReactMethod
+
+    @ReactMethod @SuppressWarnings("unused")
     public void loadAudio(final String audioUri) {
         handler.post(new Runnable() {
             @Override
@@ -84,7 +90,7 @@ public class CastModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void getMediaState(final Callback callback) {
         handler.post(new Runnable() {
             @Override
@@ -94,7 +100,7 @@ public class CastModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void togglePlayerState() {
         handler.post(new Runnable() {
             @Override
@@ -115,7 +121,7 @@ public class CastModule extends ReactContextBaseJavaModule {
         });
     }
 
-    @ReactMethod
+    @ReactMethod @SuppressWarnings("unused")
     public void resetCasting() {
         handler.post(new Runnable() {
             @Override
@@ -162,6 +168,7 @@ public class CastModule extends ReactContextBaseJavaModule {
         });
     }
 
+    @Nonnull
     @Override
     public String getName() {
         return "GoogleCastV3";
@@ -187,5 +194,36 @@ public class CastModule extends ReactContextBaseJavaModule {
     @Override
     public void onCatalystInstanceDestroy() {
         CastManager.instance.reactContext = null;
+    }
+
+    @Override
+    public void onHostResume() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.addStateListeners();
+            }
+        });
+
+    }
+
+    @Override
+    public void onHostPause() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.removeStateListeners();
+            }
+        });
+    }
+
+    @Override
+    public void onHostDestroy() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                CastManager.instance.removeStateListeners();
+            }
+        });
     }
 }
