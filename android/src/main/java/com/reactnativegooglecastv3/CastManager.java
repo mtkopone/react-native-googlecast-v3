@@ -47,15 +47,14 @@ public class CastManager {
     private MediaMetadata mediaMetadata;
 
     private CastManager(Context parent) {
-        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(parent) == ConnectionResult.SUCCESS) {
-            this.castContext = CastContext.getSharedInstance(parent);
+        this.castContext = getCastContextIfAvailable(parent);
+        if (this.castContext != null) {
             this.sessionManager = castContext.getSessionManager();
             this.castStateListener = new CastStateListenerImpl();
             this.sessionManagerListener = new SessionManagerListenerImpl();
         }
         else {
             Log.w(TAG, "Google Play services not installed on device. Cannot cast.");
-            this.castContext = null;
             this.sessionManager = null;
             this.castStateListener = null;
             this.sessionManagerListener = null;
@@ -64,6 +63,20 @@ public class CastManager {
 
     public static void init(Context ctx) {
         instance = new CastManager(ctx);
+    }
+
+    private CastContext getCastContextIfAvailable(Context context) {
+        if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) != ConnectionResult.SUCCESS) {
+            return null;
+        }
+        
+        try {
+            return CastContext.getSharedInstance(context);
+        } catch (Exception e) {
+            Log.e(TAG, "Cast context is not available");
+        }
+
+        return null;
     }
 
     void addStateListeners() {
